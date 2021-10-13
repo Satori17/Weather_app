@@ -66,6 +66,7 @@ extension ForecastVC: CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
     }
     
+    //getting current longitude&latitude
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             locationManager.stopUpdatingLocation()

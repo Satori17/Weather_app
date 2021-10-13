@@ -17,7 +17,7 @@ struct LoadingView {
             //adding background subview
             loadingBackground.frame = vc.view.bounds
             loadingBackground.backgroundColor = .gray
-            loadingBackground.alpha = 0.5
+        loadingBackground.alpha = 0.5
             loadingBackground.translatesAutoresizingMaskIntoConstraints = false
             //adding loading indicator
             if #available(iOS 13.0, *) {

@@ -12,7 +12,6 @@ import UIKit
 extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
         if day6.count != 0 {
             return 6
         } else {
@@ -22,7 +21,6 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UINib(nibName: "Header", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! HeaderView
-        
         if section == 0 {
             view.weekDaysLabel.text = "Today"
         } else {
@@ -89,7 +87,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
         if allForecast.count > today.count {
             allForecast.removeFirst(today.count)
         }
-        //day2
+        //day 2
         for i in allForecast {
             if counter != 8 {
                 day2.append(i)
@@ -99,7 +97,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
         if allForecast.count > day2.count {
             allForecast.removeFirst(day2.count)
         }
-        //day3
+        //day 3
         for i in allForecast {
             if counter1 != 8 {
                 day3.append(i)
@@ -109,7 +107,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
         if allForecast.count > day3.count {
             allForecast.removeFirst(day3.count)
         }
-        //day4
+        //day 4
         for i in allForecast {
             if counter2 != 8 {
                 day4.append(i)
@@ -119,7 +117,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
         if allForecast.count > day4.count {
             allForecast.removeFirst(day4.count)
         }
-        //day5
+        //day 5
         for i in allForecast {
             if counter3 != 8 {
                 day5.append(i)
@@ -128,19 +126,16 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
         }
         if allForecast.count > day5.count {
             allForecast.removeFirst(day5.count)
-            
         }
-        //day6
-        if today.count < 8 {
-            for i in allForecast {
-                if counter4 != 8 - today.count {
-                    day6.append(i)
-                    counter4 += 1
-                }
+        //day 6
+        for i in allForecast {
+            if counter4 != 8 - today.count {
+                day6.append(i)
+                counter4 += 1
             }
-            if day6.count > 0 {
-                allForecast.removeFirst(day6.count)
-            }
+        }
+        if allForecast.count > day6.count {
+            allForecast.removeFirst(day6.count)
         }
     }
 }

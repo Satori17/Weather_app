@@ -36,6 +36,8 @@ class MainVC: UIViewController {
     var currentLocation: CLLocation!
     let keys = Keys()
     var loadingView = LoadingView()
+    //creating view for internet connection
+    var connectionBackground = UIView()
     //for presenting permission view
     let permissionVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PermissionVC") as! PermissionVC
     
@@ -43,9 +45,6 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkNetwork()
-        UIChanges()
-        loadingView.loading(vc: self)
-        shareButton.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,7 +93,7 @@ class MainVC: UIViewController {
         case .notDetermined:
             break
         @unknown default:
-            print("other")
+            print("Location services are unavailable")
         }
     }
     
@@ -157,28 +156,36 @@ extension MainVC {
             if path.status == .satisfied {
                 DispatchQueue.main.async {
                     self.setLocation()
+                    self.loadingView.loading(vc: self)
+                    self.UIChanges()
                     self.navigationItem.title = "Today"
-                    self.loadingView.loadingBackground.isHidden = true
-                    self.loadingView.loadingIndicator.isHidden = true
                     let tabBarItem = self.tabBarController!.tabBar.items![1]
                     tabBarItem.isEnabled = true
+                    self.shareButton.isEnabled = true
+                    self.connectionBackground.isHidden = true
                 }
             } else {
                 DispatchQueue.main.async {
+                    self.locationManager.stopUpdatingLocation()
                     self.navigationItem.title = "No Internet Connection"
-                    //self.navigationItem.titleView?.backgroundColor = UIColor.red
                     let tabBarItem = self.tabBarController!.tabBar.items![1]
                     tabBarItem.isEnabled = false
-                    self.loadingView.loadingBackground.isHidden = false
-                    self.loadingView.loadingBackground.alpha = 1
+                    self.shareButton.isEnabled = false
+                    self.connectionBackground.isHidden = false
+                    self.noConnectionView()
                 }
             }
         }
         let queue = DispatchQueue(label: "Network")
         monitor.start(queue: queue)
     }
+    func noConnectionView() {
+        connectionBackground.frame = self.view.bounds
+        connectionBackground.backgroundColor = .gray
+        connectionBackground.alpha = 1
+        self.view.addSubview(connectionBackground)
+    }
 }
-
 
 //Design changes
 extension MainVC {
