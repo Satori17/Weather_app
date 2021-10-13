@@ -5,13 +5,13 @@
 //  Created by Saba Khitaridze on 08.10.21.
 //
 
-
 import UIKit
-import CoreLocation
+import Network
 import Alamofire
+import CoreLocation
+
 
 var currentWeatherModel: CurrentWeatherModel!
-
 
 class MainVC: UIViewController {
     
@@ -42,9 +42,10 @@ class MainVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkNetwork()
         UIChanges()
-        setLocation()
         loadingView.loading(vc: self)
+        shareButton.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,7 +141,7 @@ extension MainVC : CLLocationManagerDelegate {
                 guard let forecast = response.value else { return }
                 self.loadingView.loadingIndicator.stopAnimating()
                 self.loadingView.loadingBackground.isHidden = true
-                
+                self.shareButton.isEnabled = true
                 currentWeatherModel = CurrentWeatherModel(model: forecast)
                 self.showWeather(with: currentWeatherModel)
             }
@@ -148,42 +149,74 @@ extension MainVC : CLLocationManagerDelegate {
     }
 }
 
+//MARK: - Detect internet connection availability
+extension MainVC {
+    func checkNetwork() {
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.setLocation()
+                    self.navigationItem.title = "Today"
+                    self.loadingView.loadingBackground.isHidden = true
+                    self.loadingView.loadingIndicator.isHidden = true
+                    let tabBarItem = self.tabBarController!.tabBar.items![1]
+                    tabBarItem.isEnabled = true
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.navigationItem.title = "No Internet Connection"
+                    //self.navigationItem.titleView?.backgroundColor = UIColor.red
+                    let tabBarItem = self.tabBarController!.tabBar.items![1]
+                    tabBarItem.isEnabled = false
+                    self.loadingView.loadingBackground.isHidden = false
+                    self.loadingView.loadingBackground.alpha = 1
+                }
+            }
+        }
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
+    }
+}
+
+
+//Design changes
 extension MainVC {
     private func UIChanges() {
         //humidity
         humidityView.layer.cornerRadius = 25
-        humidityView.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        humidityView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         humidityView.layer.shadowRadius = 10
         humidityView.layer.shadowOpacity = 1
         humidityView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
         //rain
         rainView.layer.cornerRadius = 25
-        rainView.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        rainView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         rainView.layer.shadowRadius = 10
         rainView.layer.shadowOpacity = 1
         rainView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
         //pressure
         pressureView.layer.cornerRadius = 25
-        pressureView.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        pressureView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         pressureView.layer.shadowRadius = 10
         pressureView.layer.shadowOpacity = 1
         pressureView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
         //wind speed
         windView.layer.cornerRadius = 25
-        windView.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        windView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         windView.layer.shadowRadius = 10
         windView.layer.shadowOpacity = 1
         windView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
         //wind direction
         directionView.layer.cornerRadius = 25
-        directionView.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        directionView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         directionView.layer.shadowRadius = 10
         directionView.layer.shadowOpacity = 1
         directionView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
         //icon
-        weatherImageView.layer.shadowOffset = CGSize(width: 5.0, height: 0.0)
-        weatherImageView.layer.shadowRadius = 10
+        weatherImageView.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        weatherImageView.layer.shadowRadius = 5
         weatherImageView.layer.shadowOpacity = 1
-        weatherImageView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.0, alpha: 0.8).cgColor
+        weatherImageView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.0, alpha: 0.7).cgColor
     }
 }

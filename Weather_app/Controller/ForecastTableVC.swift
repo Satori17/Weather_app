@@ -86,7 +86,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
                 today.append(i)
             }
         }
-        if today.count > 0 {
+        if allForecast.count > today.count {
             allForecast.removeFirst(today.count)
         }
         //day2
@@ -96,7 +96,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
                 counter += 1
             }
         }
-        if day2.count > 0 {
+        if allForecast.count > day2.count {
             allForecast.removeFirst(day2.count)
         }
         //day3
@@ -106,7 +106,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
                 counter1 += 1
             }
         }
-        if day3.count > 0 {
+        if allForecast.count > day3.count {
             allForecast.removeFirst(day3.count)
         }
         //day4
@@ -116,7 +116,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
                 counter2 += 1
             }
         }
-        if day4.count > 0 {
+        if allForecast.count > day4.count {
             allForecast.removeFirst(day4.count)
         }
         //day5
@@ -129,7 +129,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
         if allForecast.count > day5.count {
             allForecast.removeFirst(day5.count)
             
-        } 
+        }
         //day6
         if today.count < 8 {
             for i in allForecast {

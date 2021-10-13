@@ -532,7 +532,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TcD-2w-aAX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1620" y="9"/>
+            <point key="canvasLocation" x="1560" y="95"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="wec-t6-8GL">
@@ -550,13 +550,13 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VHW-NX-Dpu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2500" y="4.9763033175355451"/>
+            <point key="canvasLocation" x="2394" y="95"/>
         </scene>
         <!--Today-->
         <scene sceneID="pNw-ys-M8x">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="VKL-nO-Fwm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Today" image="sun.and.horizon" catalog="system" id="O37-en-XEE"/>
+                    <tabBarItem key="tabBarItem" title="Today" image="sun.max" catalog="system" id="O37-en-XEE"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="F3W-Uc-xAq">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
@@ -600,7 +600,7 @@
         <image name="MainRain_icon" width="1365.3333740234375" height="1365.3333740234375"/>
         <image name="MainWind_icon" width="1365.3333740234375" height="1365.3333740234375"/>
         <image name="cloud.sun" catalog="system" width="128" height="95"/>
-        <image name="sun.and.horizon" catalog="system" width="128" height="80"/>
+        <image name="sun.max" catalog="system" width="128" height="124"/>
         <systemColor name="systemGray4Color">
             <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import Network
 
 class PermissionVC: UIViewController {
     
@@ -17,10 +18,10 @@ class PermissionVC: UIViewController {
     let locationManager = CLLocationManager()
     var infoText = "Location Services are disabled"
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         infoLabel.text = infoText
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +42,7 @@ class PermissionVC: UIViewController {
     
     //MARK: - IBAction
     @IBAction func accessButtonPressed(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Location Services are disabled", message: "Please, enable GPS in the Settigs app under Privacy, Location Services", preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: "Please, enable GPS in the Settigs app under Privacy, Location Services", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { action in
             if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {

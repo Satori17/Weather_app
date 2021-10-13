@@ -83,7 +83,6 @@ extension ForecastVC: CLLocationManagerDelegate {
     
     // Fetching Weather Data
     func fetchData(with url: String) {
-        
         let request = AF.request(url)
             .validate()
         request.responseDecodable(of: AllWeather.self) { (response) in
@@ -113,9 +112,9 @@ extension ForecastVC: CLLocationManagerDelegate {
                 self.loadingView.loadingIndicator.stopAnimating()
                 self.loadingView.loadingBackground.isHidden = true
             }
-            //DispatchQueue.main.async {
+            DispatchQueue.main.async {
                 self.forecastTableview.reloadData()
-          //  }
+            }
         }
     }
 }
