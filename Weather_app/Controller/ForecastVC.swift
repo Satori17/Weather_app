@@ -109,6 +109,10 @@ extension ForecastVC: CLLocationManagerDelegate {
                 }
                 //filtering week days
                 self.filteredWeekDays = self.weekDaysArray.removingDuplicates()
+                //this code adds first day of sections. because of 3 hour interval, API loses first day info at last time
+                if self.today.count == 1 {
+                    self.filteredWeekDays.insert("Today", at: 0)
+                }
                 //loadingView
                 self.loadingView.loadingIndicator.stopAnimating()
                 self.loadingView.loadingBackground.isHidden = true

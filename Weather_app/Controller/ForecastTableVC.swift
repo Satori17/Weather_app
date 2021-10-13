@@ -129,7 +129,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
         }
         //day 6
         for i in allForecast {
-            if counter4 != 8 - today.count {
+            if counter4 != (8 - today.count) {
                 day6.append(i)
                 counter4 += 1
             }
