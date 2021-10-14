@@ -15,7 +15,6 @@ struct AllWeather: Decodable {
 
 // Data
 struct WeatherData: Decodable {
-    let weekDay: Int
     let mainDetails: Main
     let weather: [WeatherCondition]
     let wind: Wind
@@ -23,7 +22,6 @@ struct WeatherData: Decodable {
     let currentTime: String
     
     private enum CodingKeys: String, CodingKey {
-        case weekDay = "dt"
         case mainDetails = "main"
         case weather
         case wind

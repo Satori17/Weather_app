@@ -20,15 +20,12 @@ class ForecastVC: UIViewController {
     let keys = Keys()
     var loadingView = LoadingView()
     var allForecast = [WeatherData]()
-    var weekDay = String()
+    //for formatting fetched current dates
+    var formattedDate = [Date]()
+    var transformedDate = [String]()
     var weekDaysArray = [String]()
+    var dateArray = [String]()
     var filteredWeekDays = [String]()
-    //counters for assigning right weathers to right sections
-    var counter = 0
-    var counter1 = 0
-    var counter2 = 0
-    var counter3 = 0
-    var counter4 = 0
     //fetched weather arrays
     var today: [WeatherData] = []
     var day2: [WeatherData] = []
@@ -36,7 +33,7 @@ class ForecastVC: UIViewController {
     var day4: [WeatherData] = []
     var day5: [WeatherData] = []
     var day6: [WeatherData] = []
-    //data array for fetched weather array
+    //data array for fetched weather arrays
     var allWeatherData = [[WeatherData]]()
     
     override func viewDidLoad() {
@@ -44,15 +41,6 @@ class ForecastVC: UIViewController {
         setLocation()
         loadingView.loading(vc: self)
         navigationItem.title = currentWeatherModel.cityName
-    }
-    
-    //get week day
-    func DaysOfWeek(fromDate: Int) -> String {
-        let date = Date(timeIntervalSince1970: Double(fromDate))
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE"
-        let dayOfWeekString = dateFormatter.string(from: date)
-        return dayOfWeekString
     }
 }
 
@@ -78,7 +66,7 @@ extension ForecastVC: CLLocationManagerDelegate {
     
     // Fetching Weather location
     func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        let urlString = "\(keys.url)lat=\(latitude)&lon=\(longitude)&appid=\(keys.configured)"
+        let urlString = "\(keys.url)lat=\(latitude)&lon=\(longitude)&appid=\(keys.key)\(keys.unit)"
         fetchData(with: urlString)
     }
     
@@ -92,34 +80,68 @@ extension ForecastVC: CLLocationManagerDelegate {
             } else {
                 guard let forecast = response.value else { return }
                 self.allForecast = forecast.list
-                //for getting current sections
-                self.getcurrentSections()
-                //appending fetched weather arrays to all weather data
-                self.allWeatherData.append(self.today)
-                self.allWeatherData.append(self.day2)
-                self.allWeatherData.append(self.day3)
-                self.allWeatherData.append(self.day4)
-                self.allWeatherData.append(self.day5)
-                if self.today.count < 8 {
-                    self.allWeatherData.append(self.day6)
-                }
                 //formatting week days data
                 for i in forecast.list {
-                    self.weekDaysArray.append(self.DaysOfWeek(fromDate: i.weekDay))
+                    self.weekDaysArray.append(self.DaysOfWeek(day: i.currentTime))
                 }
-                //filtering week days
-                self.filteredWeekDays = self.weekDaysArray.removingDuplicates()
-                //this code adds first day of sections. because of 3 hour interval, API loses first day info at last time
-                if self.today.count == 1 {
-                    self.filteredWeekDays.insert("Today", at: 0)
-                }
-                //loadingView
-                self.loadingView.loadingIndicator.stopAnimating()
-                self.loadingView.loadingBackground.isHidden = true
+                //Main function which takes date and transforms, which fully loads all weather data
+                self.makeTableViewViewable()
             }
             DispatchQueue.main.async {
                 self.forecastTableview.reloadData()
             }
         }
+    }
+    
+    //MARK: - Functions
+    
+    //get week day
+    func DaysOfWeek(day: String) -> String {
+        let currentDate = day.dropLast(9)
+        return String(currentDate)
+    }
+
+    // transform string week day as Date
+    func transformDate(currentDate: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let date = dateFormatter.date(from:currentDate)!
+        
+        return date
+    }
+    
+    func getWeekDay(currentDate: Date) -> String {
+        let dateFormatter = DateFormatter()
+        let rightWeek = dateFormatter.weekdaySymbols[Calendar.current.component(.weekday, from: currentDate)-1]
+        return String(rightWeek)
+    }
+    
+    func makeTableViewViewable() {
+        //transforming string dates as Date
+        for i in self.weekDaysArray {
+            self.formattedDate.append(self.transformDate(currentDate: i))
+        }
+        //Date as week day strings
+        for i in self.formattedDate {
+            self.transformedDate.append(self.getWeekDay(currentDate: i))
+        }
+        //filtering week days
+        self.dateArray = self.weekDaysArray.removingDuplicates()
+        //for getting current sections
+        self.getcurrentSections()
+        //appending fetched weather arrays to all weather data
+        self.allWeatherData.append(self.today)
+        self.allWeatherData.append(self.day2)
+        self.allWeatherData.append(self.day3)
+        self.allWeatherData.append(self.day4)
+        self.allWeatherData.append(self.day5)
+        self.allWeatherData.append(self.day6)
+        //removing duplicate elements from array
+        self.filteredWeekDays = self.transformedDate.removingDuplicates()
+        self.filteredWeekDays.removeFirst()
+        //loadingView
+        self.loadingView.loadingIndicator.stopAnimating()
+        self.loadingView.loadingBackground.isHidden = true
     }
 }

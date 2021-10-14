@@ -24,7 +24,7 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             view.weekDaysLabel.text = "Today"
         } else {
-            view.weekDaysLabel.text =  filteredWeekDays[section]
+            view.weekDaysLabel.text =  filteredWeekDays[section-1]
         }
         return view
     }
@@ -68,74 +68,23 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
     
     //MARK: - Extra Functions
     
-    //getting current date info
-    func currentDate() -> String {
-        let dateFormater = DateFormatter()
-        dateFormater.dateFormat = "yyyy-MM-dd"
-        let date = dateFormater.string(from: NSDate() as Date)
-        return date
-    }
-    
-    //right sections for right days
+    //right weathers for right sections
     func getcurrentSections() {
-        //today
-        for i in allForecast {
-            if i.currentTime.dropLast(9) == currentDate() {
-                today.append(i)
+        for element in allForecast {
+            let formattedTime = element.currentTime.dropLast(9)
+            if formattedTime == dateArray[0] {
+                today.append(element)
+            } else if formattedTime == dateArray[1] {
+                day2.append(element)
+            } else if formattedTime == dateArray[2] {
+                day3.append(element)
+            } else if formattedTime == dateArray[3] {
+                day4.append(element)
+            } else if formattedTime == dateArray[4] {
+                day5.append(element)
+            } else {
+                day6.append(element)
             }
-        }
-        if allForecast.count > today.count {
-            allForecast.removeFirst(today.count)
-        }
-        //day 2
-        for i in allForecast {
-            if counter != 8 {
-                day2.append(i)
-                counter += 1
-            }
-        }
-        if allForecast.count > day2.count {
-            allForecast.removeFirst(day2.count)
-        }
-        //day 3
-        for i in allForecast {
-            if counter1 != 8 {
-                day3.append(i)
-                counter1 += 1
-            }
-        }
-        if allForecast.count > day3.count {
-            allForecast.removeFirst(day3.count)
-        }
-        //day 4
-        for i in allForecast {
-            if counter2 != 8 {
-                day4.append(i)
-                counter2 += 1
-            }
-        }
-        if allForecast.count > day4.count {
-            allForecast.removeFirst(day4.count)
-        }
-        //day 5
-        for i in allForecast {
-            if counter3 != 8 {
-                day5.append(i)
-                counter3 += 1
-            }
-        }
-        if allForecast.count > day5.count {
-            allForecast.removeFirst(day5.count)
-        }
-        //day 6
-        for i in allForecast {
-            if counter4 != (8 - today.count) {
-                day6.append(i)
-                counter4 += 1
-            }
-        }
-        if allForecast.count > day6.count {
-            allForecast.removeFirst(day6.count)
         }
     }
 }

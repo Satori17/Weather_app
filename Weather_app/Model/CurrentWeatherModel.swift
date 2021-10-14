@@ -20,7 +20,6 @@ struct CurrentWeatherModel {
     var pressure: String
     var windSpeed: Double
     var windDirection: Int
-    var weekDays: Int
     
     //MARK: - Computed Properties
     
@@ -89,6 +88,5 @@ struct CurrentWeatherModel {
         self.pressure = "\(current.mainDetails.pressure) hPa"
         self.windSpeed = current.wind.windSpeed
         self.windDirection = current.wind.windDirection
-        self.weekDays = current.weekDay
     }
 }
