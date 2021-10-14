@@ -21,11 +21,11 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UINib(nibName: "Header", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! HeaderView
-        if section == 0 {
-            view.weekDaysLabel.text = "Today"
-        } else {
-            view.weekDaysLabel.text =  filteredWeekDays[section-1]
-        }
+          
+            if let weekDays = filteredWeekDays?[section] {
+                view.weekDaysLabel.text = weekDays
+            }
+        
         return view
     }
     
@@ -83,7 +83,9 @@ extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
             } else if formattedTime == dateArray[4] {
                 day5.append(element)
             } else {
+                if today.count < 8 {
                 day6.append(element)
+                }
             }
         }
     }

@@ -25,7 +25,7 @@ class ForecastVC: UIViewController {
     var transformedDate = [String]()
     var weekDaysArray = [String]()
     var dateArray = [String]()
-    var filteredWeekDays = [String]()
+    var filteredWeekDays: [String]?
     //fetched weather arrays
     var today: [WeatherData] = []
     var day2: [WeatherData] = []
@@ -100,7 +100,7 @@ extension ForecastVC: CLLocationManagerDelegate {
         let currentDate = day.dropLast(9)
         return String(currentDate)
     }
-
+    
     // transform string week day as Date
     func transformDate(currentDate: String) -> Date {
         let dateFormatter = DateFormatter()
@@ -136,10 +136,14 @@ extension ForecastVC: CLLocationManagerDelegate {
         self.allWeatherData.append(self.day3)
         self.allWeatherData.append(self.day4)
         self.allWeatherData.append(self.day5)
-        self.allWeatherData.append(self.day6)
+        if self.today.count < 8 {
+            self.allWeatherData.append(self.day6)
+        }
         //removing duplicate elements from array
         self.filteredWeekDays = self.transformedDate.removingDuplicates()
-        self.filteredWeekDays.removeFirst()
+        //remove first element to implement "today" as name of first day
+        self.filteredWeekDays?.insert("Today", at: 1)
+        self.filteredWeekDays?.removeFirst()
         //loadingView
         self.loadingView.loadingIndicator.stopAnimating()
         self.loadingView.loadingBackground.isHidden = true

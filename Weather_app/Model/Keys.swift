@@ -8,7 +8,7 @@
 import Foundation
 
 struct Keys {
-    let key = "Your API Key Here"
+    let key = apikey
     let url =  "https://api.openweathermap.org/data/2.5/forecast?"
     let unit = "&units=metric"
 }
