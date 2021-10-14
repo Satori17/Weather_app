@@ -23,8 +23,10 @@ import UIKit
             return #imageLiteral(resourceName: "Wind_day")
         case 800:
             return #imageLiteral(resourceName: "ClearSky_day")
-        case 801...804:
+        case 801,803...804:
             return #imageLiteral(resourceName: "Clouds_day")
+        case 802:
+            return #imageLiteral(resourceName: "ScatteredClouds")
         default:
             return #imageLiteral(resourceName: "ScatteredClouds")
         }
@@ -42,8 +44,10 @@ import UIKit
             return #imageLiteral(resourceName: "Wind_night")
         case 800:
             return #imageLiteral(resourceName: "ClearSky_night")
-        case 801...804:
+        case 801,803...804:
             return #imageLiteral(resourceName: "Clouds_night")
+        case 802:
+            return #imageLiteral(resourceName: "ScatteredClouds")
         default:
             return #imageLiteral(resourceName: "ScatteredClouds")
         }
