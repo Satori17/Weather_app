@@ -35,6 +35,8 @@ class ForecastVC: UIViewController {
     var day6: [WeatherData] = []
     //data array for fetched weather arrays
     var allWeatherData = [[WeatherData]]()
+    //counter of fetching. controls populating tableview on the first fetch
+    var guardCounter = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,17 +80,20 @@ extension ForecastVC: CLLocationManagerDelegate {
             if response.error != nil {
                 print(String(describing: response.error?.localizedDescription))
             } else {
-                guard let forecast = response.value else { return }
-                self.allForecast = forecast.list
-                //formatting week days data
-                for i in forecast.list {
-                    self.weekDaysArray.append(self.DaysOfWeek(day: i.currentTime))
+                self.guardCounter += 1
+                if self.guardCounter == 1 {
+                    guard let forecast = response.value else { return }
+                    self.allForecast = forecast.list
+                    //formatting week days data
+                    for i in forecast.list {
+                        self.weekDaysArray.append(self.DaysOfWeek(day: i.currentTime))
+                    }
+                    //Main function which fully loads all weather data
+                    self.makeTableViewViewable()
                 }
-                //Main function which takes date and transforms, which fully loads all weather data
-                self.makeTableViewViewable()
-            }
-            DispatchQueue.main.async {
-                self.forecastTableview.reloadData()
+                DispatchQueue.main.async {
+                    self.forecastTableview.reloadData()
+                }
             }
         }
     }

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Network
 import Alamofire
 import CoreLocation
 
