@@ -12,11 +12,7 @@ import UIKit
 extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if day6.count != 0 {
-            return 6
-        } else {
-            return allWeatherData.count
-        }
+        allWeatherData.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

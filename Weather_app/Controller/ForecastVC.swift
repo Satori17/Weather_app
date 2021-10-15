@@ -38,8 +38,8 @@ class ForecastVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setLocation()
         loadingView.loading(vc: self)
+        setLocation()
         navigationItem.title = currentWeatherModel.cityName
     }
 }
