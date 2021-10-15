@@ -44,6 +44,7 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkNetwork()
+        loadingView.loading(vc: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {

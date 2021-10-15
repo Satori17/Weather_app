@@ -20,6 +20,8 @@ class ForecastVC: UIViewController {
     let keys = Keys()
     var loadingView = LoadingView()
     var allForecast = [WeatherData]()
+    //creating view for internet connection
+    var connectionBackground = UIView()
     //for formatting fetched current dates
     var formattedDate = [Date]()
     var transformedDate = [String]()
@@ -40,9 +42,8 @@ class ForecastVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkNetwork()
         loadingView.loading(vc: self)
-        setLocation()
-        navigationItem.title = currentWeatherModel.cityName
     }
 }
 
@@ -51,7 +52,7 @@ class ForecastVC: UIViewController {
 extension ForecastVC: CLLocationManagerDelegate {
     
     //updating location
-    private func setLocation() {
+    func setLocation() {
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
     }

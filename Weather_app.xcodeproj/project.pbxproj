@@ -146,10 +146,10 @@
 			isa = PBXGroup;
 			children = (
 				5811CEF2270FACE5004110DC /* MainVC.swift */,
-				585A3A702717BA9B00EA1609 /* InternetConnection.swift */,
 				5811CF062710D0A1004110DC /* ForecastVC.swift */,
 				58041B9327160AE70048632C /* ForecastTableVC.swift */,
 				58A1363D2713E8FD00EC3AA0 /* PermissionVC.swift */,
+				585A3A702717BA9B00EA1609 /* InternetConnection.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";

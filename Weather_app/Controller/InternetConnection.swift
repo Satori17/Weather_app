@@ -7,6 +7,15 @@
 
 import Foundation
 import Network
+import UIKit
+
+
+private func noConnectionView(vc: UIViewController, view: UIView) {
+    view.frame = vc.view.bounds
+    view.backgroundColor = .gray
+    view.alpha = 1
+    vc.view.addSubview(view)
+}
 
 //MARK: - Detect internet connection availability
 extension MainVC {
@@ -17,11 +26,8 @@ extension MainVC {
             if path.status == .satisfied {
                 DispatchQueue.main.async {
                     self.setLocation()
-                    self.loadingView.loading(vc: self)
                     self.UIChanges()
                     self.navigationItem.title = "Today"
-                    let tabBarItem = self.tabBarController!.tabBar.items![1]
-                    tabBarItem.isEnabled = true
                     self.shareButton.isEnabled = true
                     self.connectionBackground.isHidden = true
                 }
@@ -29,21 +35,38 @@ extension MainVC {
                 DispatchQueue.main.async {
                     self.locationManager.stopUpdatingLocation()
                     self.navigationItem.title = "No Internet Connection"
-                    let tabBarItem = self.tabBarController!.tabBar.items![1]
-                    tabBarItem.isEnabled = false
                     self.shareButton.isEnabled = false
                     self.connectionBackground.isHidden = false
-                    self.noConnectionView()
+                    noConnectionView(vc: self, view: self.connectionBackground)
                 }
             }
         }
         let queue = DispatchQueue(label: "Network")
         monitor.start(queue: queue)
     }
-    func noConnectionView() {
-        connectionBackground.frame = self.view.bounds
-        connectionBackground.backgroundColor = .gray
-        connectionBackground.alpha = 1
-        self.view.addSubview(connectionBackground)
+}
+
+extension ForecastVC {
+    
+    func checkNetwork() {
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.setLocation()
+                    self.navigationItem.title = currentWeatherModel.cityName
+                    self.connectionBackground.isHidden = true
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.locationManager.stopUpdatingLocation()
+                    self.navigationItem.title = "No Internet Connection"
+                    self.connectionBackground.isHidden = false
+                    noConnectionView(vc: self, view: self.connectionBackground)
+                }
+            }
+        }
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
 }
