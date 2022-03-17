@@ -3,7 +3,7 @@
 This is a Weather app that shows current weather and 5 following day forecasts with 3-hour interval time 
 
 <img src="https://user-images.githubusercontent.com/72808071/137425346-3496052c-f6eb-4481-a93e-8203d1a1f2de.jpg" width="650" height="530">
-<img src="https://user-images.githubusercontent.com/72808071/137425668-7760a38c-480c-420c-b9d8-ab02c8d46796.png" width="700" height="400">
+<img src="https://user-images.githubusercontent.com/72808071/137425668-7760a38c-480c-420c-b9d8-ab02c8d46796.png" width="700" height="370">
 
 Supports Dark Mode
 
