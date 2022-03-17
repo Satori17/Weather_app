@@ -69,7 +69,7 @@ extension ForecastVC: CLLocationManagerDelegate {
     
     // Fetching Weather location
     func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        let urlString = "\(keys.url)lat=\(latitude)&lon=\(longitude)&appid=\(keys.key)\(keys.unit)"
+        let urlString = "\(Keys.url)lat=\(latitude)&lon=\(longitude)&appid=\(Keys.key)\(Keys.unit)"
         fetchData(with: urlString)
     }
     

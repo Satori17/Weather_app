@@ -26,7 +26,8 @@ extension MainVC {
             if path.status == .satisfied {
                 DispatchQueue.main.async {
                     self.setLocation()
-                    self.UIChanges()
+                    //self.UIChanges()
+                    self.getAllUIViewChanges()
                     self.navigationItem.title = "Today"
                     self.shareButton.isEnabled = true
                     self.connectionBackground.isHidden = true

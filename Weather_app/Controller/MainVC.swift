@@ -33,7 +33,6 @@ class MainVC: UIViewController {
     
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation!
-    let keys = Keys()
     var loadingView = LoadingView()
     //creating view for internet connection
     var connectionBackground = UIView()
@@ -98,7 +97,7 @@ class MainVC: UIViewController {
     }
     
     //for showing current weather details
-    func showWeather(with Model: CurrentWeatherModel) {
+    private func showWeather(with Model: CurrentWeatherModel) {
         self.weatherImageView.image = WeatherIcons(iconCode: Model.weatherIconCode, iconId: Model.weatherIcon)
         self.humidityLabel.text = Model.humidity
         self.locationLabel.text = Model.cityName
@@ -125,7 +124,7 @@ extension MainVC : CLLocationManagerDelegate {
     
     // Fetching Weather location
     func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        let urlString = "\(keys.url)lat=\(latitude)&lon=\(longitude)&appid=\(keys.key)\(keys.unit)"
+        let urlString = "\(Keys.url)lat=\(latitude)&lon=\(longitude)&appid=\(Keys.key)\(Keys.unit)"
         fetchData(with: urlString)
     }
     
@@ -151,41 +150,34 @@ extension MainVC : CLLocationManagerDelegate {
 
 //Design changes
 extension MainVC {
-    func UIChanges() {
-        //humidity
-        humidityView.layer.cornerRadius = 25
-        humidityView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        humidityView.layer.shadowRadius = 10
-        humidityView.layer.shadowOpacity = 1
-        humidityView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
-        //rain
-        rainView.layer.cornerRadius = 25
-        rainView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        rainView.layer.shadowRadius = 10
-        rainView.layer.shadowOpacity = 1
-        rainView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
-        //pressure
-        pressureView.layer.cornerRadius = 25
-        pressureView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        pressureView.layer.shadowRadius = 10
-        pressureView.layer.shadowOpacity = 1
-        pressureView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
-        //wind speed
-        windView.layer.cornerRadius = 25
-        windView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        windView.layer.shadowRadius = 10
-        windView.layer.shadowOpacity = 1
-        windView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
-        //wind direction
-        directionView.layer.cornerRadius = 25
-        directionView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        directionView.layer.shadowRadius = 10
-        directionView.layer.shadowOpacity = 1
-        directionView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
-        //icon
-        weatherImageView.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        weatherImageView.layer.shadowRadius = 5
-        weatherImageView.layer.shadowOpacity = 1
-        weatherImageView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.0, alpha: 0.7).cgColor
+    private func UIChanges(for view: UIView) {
+        view.layer.cornerRadius = 25
+        view.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        view.layer.shadowRadius = 10
+        view.layer.shadowOpacity = 1
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.5).cgColor
+    }
+    
+    private func imageViewUIChanges(for image: UIImageView) {
+        image.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        image.layer.shadowRadius = 5
+        image.layer.shadowOpacity = 1
+        image.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0.0, alpha: 0.7).cgColor
+    }
+    
+    func getAllUIViewChanges() {
+        let allUIView = [humidityView, rainView, pressureView, windView, directionView, weatherImageView]
+        
+        for view in allUIView {
+            if view == weatherImageView {
+                if let imageView = view as? UIImageView {
+                    imageViewUIChanges(for: imageView)
+                }
+            } else {
+                if let uiView = view {
+                    UIChanges(for: uiView)
+                }
+            }
+        }
     }
 }
